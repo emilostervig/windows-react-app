@@ -1,0 +1,178 @@
+// colors
+// https://www.sitepoint.com/css-system-styles/
+$activeBorder: #b4b4b4;
+$activeCaption: #99b4d1;
+$buttonFace: #f0f0f0;
+$buttonHightlight: #ffffff;
+$buttonShadow: #a0a0a0;
+$GrayText: rgb(109, 109, 109); // inactive
+$inactiveBorder: #f4f7fc;
+
+$menu: #f0f0f0;
+$menuText: #000;
+$scrollBar: #c8c8c8;
+$ThreeDDarkShadow: #696969;
+$ThreeDShadow: #a0a0a0;
+$ThreeDFace: #f0f0f0;
+$window: #ffffff;
+$windowFrame: #646464;
+$taskbar: #d4d0c8;
+
+
+$taskbarHeight: 45px;
+@mixin selection {
+    &::selection {
+        @content;
+    }
+    &::-moz-selection {
+        @content;
+    }
+
+
+}
+
+
+body{
+    min-height: 100vh;
+    font-size: 14px;
+    font-family: "Tahoma";
+}
+*{
+    cursor: default;
+}
+
+
+/* --- Window base -- */
+.window{
+    max-width: 100%;
+    width: 700px;
+    position: fixed;
+    transition: width 100ms ease-in, top 100ms ease-in, left 100ms ease-in;
+    background-color: $window;
+    max-height: calc(100vh - #{$taskbarHeight});
+    height: 500px;
+    box-shadow: 1px 1px 0 1px $ThreeDDarkShadow,0 0 1px 1px $ThreeDShadow;
+    border-top: 2px solid $window;
+    border-left: 2px solid $window;
+    border-right: 1px solid $windowFrame;
+    border-bottom: 1px solid $windowFrame;
+    backface-visibility: hidden;
+    &.isfullscreen {
+        width: 100% ;
+        height: calc(100% - #{$taskbarHeight});
+        top: 0 ;
+        bottom: 100px;
+        left: 0 ;
+        right: 0 ;
+    }
+    &.minimized{
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0);
+        transition: opacity 100ms ease-in, transform 100ms ease-in;
+        transform-origin: center bottom;
+    }
+    &.dragging{
+        transition: 0s !important;
+    }
+
+    .window-bar{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: 30px;
+        background: linear-gradient(to left, #bcbebd 0%, #898b88 100%);
+        background-color: #5f5f5f;
+    }
+    .bar-controls{
+        margin-left: auto;
+        display: flex;
+        margin-right: 4px;
+    }
+    .bar-btn{
+        margin-left: 2px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        background-color: #f5f5f5;
+        box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+    }
+    .bar-name{
+        line-height: 30px;
+        color: #fff;
+        font-weight: 600;
+    }
+    .bar-icon{
+        height: 20px;
+        padding: 5px;
+        margin-right: 4px;
+    }
+}
+
+
+/* desktop background el */
+#desktop{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 110px);
+    grid-template-rows: repeat(auto-fill, 90px);
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+    padding-bottom: $taskbarHeight;
+    width: 100%;
+    grid-gap: 8px 3px;
+}
+
+.desktop-app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    margin: auto;
+    padding: 5px 2px;
+    &, *{
+        @include selection{
+            background-color: transparent !important;
+        }
+    }
+    &.clicked{
+        background: lighten(#3a6ea5, 7)
+    }
+    .icon{
+       max-width: 90px;
+       max-height: 90px; 
+       margin-bottom: 5px;
+    }
+}
+
+
+/* --- Taskbar --- */
+#taskbar{
+    background-color: $taskbar;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    .inside-taskbar{
+        padding: 2px;
+        box-sizing: border-box;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    img{
+        max-height: 100%;
+        padding: 2px 0px;
+        box-sizing: border-box;
+    }
+    .taskbar-clock{
+        text-align: center;
+        margin-left: auto;
+        padding: 3px 10px;
+        box-shadow: inset 1px 1px 1px 0px $buttonShadow;
+        border-right: 2px solid #f4f3f1;
+        border-bottom: 2px solid #f4f3f1;
+    }
+}
